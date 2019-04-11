@@ -52,6 +52,19 @@ def predict():
         "instruction": recyclable_classification.get("special_instructions")
     })
 
+@app.route("/predict_term", methods=["GET"])
+def predict_term():
+    req = request.args
+    if "term" in req:
+        recyclable_classification = classify_recyclable_trash([req.get("term")])
+
+    return jsonify({
+        "prediction": req.get("term"),
+        "material": recyclable_classification.get("material"),
+        "waste_action": recyclable_classification.get("action"),
+        "instruction": recyclable_classification.get("special_instructions")
+    })
+
 
 if __name__ == "__main__":
     app.run()
